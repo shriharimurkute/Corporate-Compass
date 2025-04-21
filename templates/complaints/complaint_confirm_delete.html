@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Deletion{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">Confirm Complaint Deletion</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">Are you sure you want to delete the following complaint?</p>
+                <hr>
+                 <p><strong>Receipt ID:</strong> {{ complaint.receipt_id }}</p>
+                <p><strong>Agency:</strong> {{ complaint.tagged_agency.name }}</p>
+                <p><strong>Submitted:</strong> {{ complaint.created_at|date:"F j, Y" }}</p>
+                 <p><strong>Description:</strong></p>
+                 <blockquote class="blockquote bg-light p-2 rounded">{{ complaint.description|truncatewords:50 }}</blockquote>
+
+                 <p class="text-danger mt-3"><small><strong>Warning:</strong> This action cannot be undone.</small></p>
+
+                 <form method="post" action="{% url 'delete_complaint' complaint.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Delete Complaint</button>
+                    <a href="{% url 'complaint_detail' complaint.pk %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

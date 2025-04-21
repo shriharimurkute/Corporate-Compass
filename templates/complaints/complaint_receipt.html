@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Complaint Submitted Successfully{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow border-success">
+            <div class="card-header bg-success text-white">
+                 <h4 class="mb-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-check-circle-fill me-2" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    Complaint Submitted Successfully!
+                </h4>
+            </div>
+            <div class="card-body">
+                 <p class="lead">Your complaint has been registered with the system.</p>
+                <p>Please keep the following Receipt ID safe for future reference and tracking:</p>
+                 <div class="alert alert-info text-center">
+                     <h3 class="mb-0"><strong>{{ complaint.receipt_id }}</strong></h3>
+                 </div>
+
+                 <h5 class="mt-4">Summary:</h5>
+                 <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Submitted By:</strong> {{ complaint.user.username }}</li>
+                    <li class="list-group-item"><strong>Date Submitted:</strong> {{ complaint.created_at|date:"F j, Y, P" }}</li>
+                    <li class="list-group-item"><strong>Concerned Agency:</strong> {{ complaint.tagged_agency.name }}</li>
+                    <li class="list-group-item"><strong>Location:</strong> {{ complaint.user_address|truncatewords:20 }}</li>
+                    <li class="list-group-item"><strong>Description:</strong> {{ complaint.description|truncatewords:30 }}</li>
+                    {% if complaint.image %}
+                    <li class="list-group-item"><strong>Image Attached:</strong> Yes</li>
+                    {% endif %}
+                    <li class="list-group-item"><strong>Initial Status:</strong> {{ complaint.get_status_display }}</li>
+                 </ul>
+
+                 <div class="mt-4 text-center">
+                    <a href="{% url 'complaint_detail' complaint.pk %}" class="btn btn-primary me-2">View Full Details</a>
+                    <a href="{% url 'track_complaint' %}?receipt_id={{ complaint.receipt_id }}" class="btn btn-info me-2">Track This Complaint</a>
+                    <a href="{% url 'my_complaints' %}" class="btn btn-secondary">View My Complaints</a>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

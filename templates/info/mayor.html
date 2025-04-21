@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Mayor's Office Information{% endblock %}
+
+{% block content %}
+<h2>About the Mayor / Chairperson</h2>
+<hr>
+<p>Information regarding the role and office of the Mayor (or Chairperson, depending on the type of municipality).</p>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Role of the Mayor/Chairperson</h5>
+        <p>The Mayor is the political head of the Municipal Corporation/Council. Their primary roles often include:</p>
+        <ul>
+            <li>Presiding over the meetings of the elected Council.</li>
+            <li>Acting as the ceremonial head of the city for official functions.</li>
+            <li>Representing the city in various forums.</li>
+            <li>Providing political leadership and direction to the Council.</li>
+            <li>Working with the Municipal Commissioner/Chief Officer to ensure smooth functioning of the administration.</li>
+            <li>Acting as a bridge between the citizens and the municipal administration.</li>
+        </ul>
+        <p>The extent of the Mayor's executive powers can vary significantly depending on the specific state laws governing the municipality.</p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Current Mayor/Chairperson</h5>
+        {# Replace with actual, dynamic information if possible, or static placeholder #}
+        <p><strong>Name:</strong> [Name of the Current Mayor/Chairperson]</p>
+        <p><strong>Term:</strong> [Start Year] - [End Year]</p>
+        {# Add party affiliation if relevant/allowed #}
+        {# <p><strong>Party Affiliation:</strong> [Political Party]</p> #}
+        <p><em>Information current as of [Date]. Please refer to the official municipal website for the latest details.</em></p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Contacting the Mayor's Office</h5>
+        <p>While specific complaints about services should generally be routed through Corporate Compass or the relevant department, you may need to contact the Mayor's office for policy matters or significant issues.</p>
+        <p><strong>Contact Information (Example - Replace with actual):</strong></p>
+        <ul>
+            <li><strong>Office Address:</strong> [Mayor's Office, Municipal Building Address, City]</li>
+            <li><strong>Office Phone:</strong> [Mayor's Office Contact Number]</li>
+            <li><strong>Email:</strong> [Mayor's Official Email Address]</li>
+            <li><strong>Website Section:</strong> (Link to Mayor's section on municipal website, if available)</li>
+        </ul>
+        <p><em>Contact details are illustrative. Please verify through official channels.</em></p>
+    </div>
+</div>
+
+{% endblock %}

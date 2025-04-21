@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h2 class="h2">{{ title }}</h2>
+    {# Optional: Add a button to submit new complaint if relevant for this view #}
+    {% if request.resolver_match.url_name == 'my_complaints' or request.resolver_match.url_name == 'complaint_list' %}
+         <a href="{% url 'submit_complaint' %}" class="btn btn-success btn-sm">
+            <i class="bi bi-plus-circle-fill me-1"></i> Submit New Complaint
+         </a>
+    {% endif %}
+</div>
+
+
+{% if complaints %}
+    {# Use Bootstrap's grid system for cards. Adjust columns (e.g., md-2, lg-3) as needed #}
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for complaint in complaints %}
+        <div class="col">
+            {# Card structure for each complaint. h-100 makes cards in a row the same height #}
+            <div class="card h-100 shadow-sm">
+
+                {# --- Image Display --- #}
+                {# Check if the image exists. Make sure MEDIA settings and URL patterns are correct! #}
+                {% if complaint.image %}
+                    <a href="{% url 'complaint_detail' complaint.pk %}"> {# Link image to detail page #}
+                        <img src="{{ complaint.image.url }}" class="card-img-top" alt="Complaint {{ complaint.receipt_id }}" style="height: 200px; object-fit: cover;">
+                        {# style attribute: Adjust height as desired. object-fit: cover prevents distortion #}
+                    </a>
+                {% else %}
+                    {# Optional: Display a placeholder if no image exists #}
+                     <a href="{% url 'complaint_detail' complaint.pk %}">
+                        <img src="{% static 'images/placeholder.png' %}" class="card-img-top" alt="image" style="height: 200px; object-fit: contain; background-color: #eee;">
+                        {# Make sure you have a placeholder.png in your static files #}
+                     </a>
+                {% endif %}
+
+                <div class="card-body d-flex flex-column"> {# flex-column helps push footer/buttons down #}
+                    <h5 class="card-title">
+                        <a href="{% url 'complaint_detail' complaint.pk %}" class="text-decoration-none">
+                            Complaint #{{ complaint.receipt_id }}
+                        </a>
+                    </h5>
+
+                    {# Status Badge #}
+                    <p class="mb-2">
+                        <span class="badge rounded-pill
+                            {% if complaint.status == 'submitted' %} bg-warning text-dark
+                            {% elif complaint.status == 'viewed' %} bg-info text-dark
+                            {% elif complaint.status == 'resolved' %} bg-success
+                            {% else %} bg-secondary {% endif %}">
+                            {{ complaint.get_status_display }}
+                        </span>
+                    </p>
+
+                    {# Brief Description #}
+                    <p class="card-text text-muted flex-grow-1"> {# flex-grow-1 pushes elements below it down #}
+                        {{ complaint.description|truncatewords:15 }}
+                    </p>
+
+                    {# Agency Link #}
+                    <p class="card-text mb-1"><small class="text-muted">Agency: <a href="{% url 'agency_detail' complaint.tagged_agency.pk %}">{{ complaint.tagged_agency.name|truncatechars:30 }}</a></small></p>
+
+                    {# Submitted By (Only if needed, e.g., on 'All Complaints' view) #}
+                    {% if title == 'All Complaints' %}
+                       <p class="card-text mb-2"><small class="text-muted">By: {{ complaint.user.username }}</small></p>
+                    {% endif %}
+
+                    {# --- Action Buttons --- #}
+                    <div class="mt-auto pt-2"> {# mt-auto pushes this block to the bottom #}
+                        <a href="{% url 'complaint_detail' complaint.pk %}" class="btn btn-primary btn-sm" title="View Details">
+                            <i class="bi bi-eye-fill"></i> View
+                        </a>
+                        {% if complaint.user == request.user and complaint.status == 'submitted' %}
+                            <a href="{% url 'edit_complaint' complaint.pk %}" class="btn btn-warning btn-sm ms-1" title="Edit Complaint">
+                               <i class="bi bi-pencil-fill"></i> Edit
+                            </a>
+                            <a href="{% url 'delete_complaint' complaint.pk %}" class="btn btn-danger btn-sm ms-1" title="Delete Complaint" onclick="return confirm('Are you sure you want to delete complaint #{{ complaint.receipt_id }}?');">
+                               <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <small class="text-muted">Submitted: {{ complaint.created_at|date:"Y-m-d H:i" }}</small>
+                </div>
+            </div> {# End card #}
+        </div> {# End col #}
+        {% endfor %}
+    </div> {# End row #}
+{% else %}
+    <div class="alert alert-info mt-3">No complaints found.
+        {% if title == 'My Submitted Complaints' %}
+            <a href="{% url 'submit_complaint' %}" class="alert-link">Submit your first complaint?</a>
+        {% endif %}
+    </div>
+{% endif %}
+
+{% endblock %}

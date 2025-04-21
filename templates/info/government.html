@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Government Information{% endblock %}
+
+{% block content %}
+<h2>Government Structure</h2>
+<hr>
+<p>This page provides general information about the structure of government relevant to the services covered by Corporate Compass.</p>
+
+<div class="accordion" id="govAccordion">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Levels of Government
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#govAccordion">
+      <div class="accordion-body">
+        <strong>In India, governance operates at multiple levels:</strong>
+        <ul>
+            <li><strong>Central Government:</strong> Responsible for national issues like defense, foreign affairs, railways, national highways, etc.</li>
+            <li><strong>State Government:</strong> Handles state-level subjects like law and order, public health, agriculture, state roads, education (concurrently), etc.</li>
+            <li><strong>Local Government (Urban and Rural):</strong>
+                <ul>
+                    <li><strong>Urban Local Bodies (ULBs):</strong> Municipal Corporations (for large cities), Municipal Councils (for smaller cities/towns), Nagar Panchayats (for transitional areas). These are primarily the focus of Corporate Compass.</li>
+                    <li><strong>Panchayati Raj Institutions (PRIs):</strong> For rural areas (Gram Panchayats, Panchayat Samitis, Zilla Parishads).</li>
+                </ul>
+            </li>
+        </ul>
+        <p>Corporate Compass primarily deals with issues falling under the purview of Urban Local Bodies (Municipal Corporations/Councils).</p>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Key Functions of Urban Local Bodies
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#govAccordion">
+      <div class="accordion-body">
+        Municipal Corporations and Councils are typically responsible for:
+        <ul>
+            <li>Urban planning including town planning.</li>
+            <li>Regulation of land-use and construction of buildings.</li>
+            <li>Planning for economic and social development.</li>
+            <li>Roads and bridges.</li>
+            <li>Water supply for domestic, industrial and commercial purposes.</li>
+            <li>Public health, sanitation conservancy and solid waste management.</li>
+            <li>Fire services.</li>
+            <li>Slum improvement and upgradation.</li>
+            <li>Provision of urban amenities and facilities such as parks, gardens, playgrounds.</li>
+            <li>Burials and burial grounds; cremations, cremation grounds and electric crematoriums.</li>
+            <li>Public amenities including street lighting, parking lots, bus stops and public conveniences.</li>
+            <li>Regulation of slaughter houses and tanneries.</li>
+            <!-- Add more functions as listed in the 12th Schedule of the Constitution -->
+        </ul>
+      </div>
+    </div>
+  </div>
+  {# Add more sections as needed #}
+</div>
+
+{% endblock %}

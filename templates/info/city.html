@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Belgaum (Belagavi) Information{% endblock %}
+
+{% block content %}
+<style>
+    /* Basic styling enhancements - Ideally move to a separate CSS file */
+    body {
+        background-color: #f8f9fa; /* Light grey background */
+    }
+    .city-header {
+        border-bottom: 2px solid #dee2e6;
+        padding-bottom: 10px;
+        margin-bottom: 25px;
+        color: #343a40;
+    }
+    .card {
+        box-shadow: 0 2px 5px rgba(0,0,0,.1); /* Subtle shadow for cards */
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px); /* Slight lift on hover */
+    }
+    .main-city-image {
+        max-height: 400px; /* Limit image height */
+        object-fit: cover; /* Cover the area nicely */
+        width: 100%;
+        border-radius: 5px; /* Slightly rounded corners */
+    }
+</style>
+
+<h2 class="city-header">About Belgaum (Belagavi)</h2>
+
+<!-- === Image Placeholder === -->
+<!-- Replace 'path/to/your/belgaum_image.jpg' with an actual image URL or path -->
+<img src="{% static 'images/suvarna-vidhana-soudha.jpg' %}"
+     alt="Scenic view of Belgaum (e.g., Suvarna Vidhana Soudha)"
+     class="img-fluid mb-4 main-city-image object-fit-sm-contain border rounded">
+<!-- === End Image Placeholder === -->
+
+
+<p>General information and key facts about Belgaum (Belagavi).</p>
+<hr class="mb-4">
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Overview</h5>
+                <p class="card-text">
+                    Belgaum, officially known as **Belagavi**, is a significant city located in the northwestern part of the state of Karnataka, India. Situated in the Western Ghats near the borders of Maharashtra and Goa, it boasts a rich historical and cultural heritage. Known for its strategic military importance (housing the Maratha Light Infantry Regimental Centre - MLIRC) and pleasant climate, it serves as the administrative headquarters of the Belagavi District. It's also a key educational and industrial hub, particularly known for foundries and heavy machinery. The **Suvarna Vidhana Soudha**, a secondary legislature building for Karnataka, is located here.
+                </p>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Demographics (Approx. 2011 Census)</h5>
+                <ul>
+                    <li><strong>Population (City):</strong> Approx. 490,045</li>
+                    <li><strong>Population (Urban Agglomeration):</strong> Approx. 610,350</li>
+                    <li><strong>Area (City Corporation):</strong> Approx. 94 sq. km</li>
+                    <li><strong>Literacy Rate:</strong> Approx. 89.82%</li>
+                    <li><strong>Key Languages:</strong> Kannada (Official), Marathi (Widely Spoken), Hindi, Urdu, English</li>
+                </ul>
+                <p><small><em>Data is based on the 2011 Census and may have changed. Refer to official sources for the latest figures.</em></small></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card mb-4">
+             <div class="card-body">
+                <h5 class="card-title">Local Governance</h5>
+                 <p class="card-text">The city is governed by the <strong>Belagavi City Corporation (BCC)</strong>. Key responsibilities include civic amenities, infrastructure development, waste management, and local planning.</p>
+                 <p class="card-text">Find more details under the <a href="{% url 'info_municipality' %}">Municipality Information</a> section (Ensure this URL name is correct in your `urls.py`).</p>
+                 <p class="card-text">The city is divided into <strong>58</strong> administrative wards.</p>
+             </div>
+        </div>
+         <div class="card mb-4">
+             <div class="card-body">
+                <h5 class="card-title">Key Landmarks & Attractions</h5>
+                 <ul>
+                    <li><strong>Belgaum Fort:</strong> A historic fort with diverse architectural influences and temples/mosques inside.</li>
+                    <li><strong>Kamal Basadi:</strong> A notable Jain temple within the fort complex.</li>
+                    <li><strong>Kapileshwar Temple:</strong> An ancient Shiva temple, often called the "Dakshina Kashi".</li>
+                    <li><strong>Suvarna Vidhana Soudha:</strong> The impressive second legislature building of Karnataka.</li>
+                    <li><strong>Military Mahadeva Temple:</strong> A unique and well-maintained temple within the military area.</li>
+                    <li><strong>St. Mary's Church:</strong> An example of Gothic architecture.</li>
+                    <li><strong>Gokak Falls (Nearby):</strong> A scenic waterfall often visited from Belgaum.</li>
+                    <li><strong>Kittur Fort (Nearby):</strong> Historically significant fort associated with Rani Chennamma.</li>
+                 </ul>
+             </div>
+        </div>
+        {# You can add more cards here for Economy, Transportation, Education, Climate etc. if desired #}
+        <!-- Example:
+        <div class="card mb-4">
+             <div class="card-body">
+                <h5 class="card-title">Economy</h5>
+                 <p class="card-text">Key industries include foundries, hydraulics, manufacturing, and agriculture. Growing IT presence...</p>
+             </div>
+        </div>
+        -->
+    </div>
+</div>
+
+{% endblock %}

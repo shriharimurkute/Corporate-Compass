@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Municipality Information{% endblock %}
+
+{% block content %}
+<h2>About the Municipality / Municipal Corporation</h2>
+<hr>
+<p>This section provides details about the functions, structure, and services offered by the local Municipal body, which is often the primary agency responsible for addressing civic issues raised through Corporate Compass.</p>
+
+<div class="accordion" id="municipalityAccordion">
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingMuniStructure">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMuniStructure" aria-expanded="true" aria-controls="collapseMuniStructure">
+        Structure of the Municipal Body
+      </button>
+    </h2>
+    <div id="collapseMuniStructure" class="accordion-collapse collapse show" aria-labelledby="headingMuniStructure" data-bs-parent="#municipalityAccordion">
+      <div class="accordion-body">
+        Municipal bodies (Corporations or Councils) typically consist of:
+        <ul>
+            <li><strong>Elected Council:</strong> Composed of Councillors or Corporators elected directly by the people from different wards of the city. This council is the legislative body, making policies and decisions.</li>
+            <li><strong>Mayor/Chairperson:</strong> The political head of the municipality, often elected by the councillors or sometimes directly by the people. They preside over council meetings.</li>
+            <li><strong>Municipal Commissioner/Chief Officer:</strong> The administrative head, usually an appointed government official (like an IAS officer for Corporations). They are responsible for implementing the council's decisions and managing the day-to-day operations.</li>
+            <li><strong>Various Departments:</strong> Specialized departments handle specific functions like Water Supply, Sanitation, Public Works (Roads), Health, Town Planning, Property Tax, etc. The agencies listed on Corporate Compass often correspond to these departments.</li>
+            <li><strong>Standing Committees:</strong> Committees formed from councillors to oversee specific areas (e.g., Finance Committee, Health Committee).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingMuniFunctions">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMuniFunctions" aria-expanded="false" aria-controls="collapseMuniFunctions">
+        Key Responsibilities & Services
+      </button>
+    </h2>
+    <div id="collapseMuniFunctions" class="accordion-collapse collapse" aria-labelledby="headingMuniFunctions" data-bs-parent="#municipalityAccordion">
+      <div class="accordion-body">
+        The municipality is responsible for delivering essential civic services. Some key areas include:
+        <ul>
+            <li><strong>Water Supply:</strong> Ensuring clean and adequate water distribution.</li>
+            <li><strong>Waste Management:</strong> Collection, transportation, and disposal of solid waste (garbage).</li>
+            <li><strong>Sanitation & Sewerage:</strong> Maintaining drainage systems, public toilets, and preventing open defecation.</li>
+            <li><strong>Roads & Infrastructure:</strong> Construction and maintenance of local roads, footpaths, and streetlights.</li>
+            <li><strong>Public Health:</strong> Running dispensaries, controlling epidemics, food safety inspection.</li>
+            <li><strong>Parks & Recreation:</strong> Maintaining public parks, gardens, and playgrounds.</li>
+            <li><strong>Building Permissions:</strong> Regulating construction activities.</li>
+            <li><strong>Birth & Death Registration:</strong> Issuing certificates.</li>
+            <li><strong>Property Tax Collection:</strong> A primary source of revenue for the municipality.</li>
+        </ul>
+        <p>When you submit a complaint on Corporate Compass, you are typically reporting an issue related to one of these service areas, and it needs to be directed to the relevant municipal department.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingMuniContact">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMuniContact" aria-expanded="false" aria-controls="collapseMuniContact">
+        Contacting the Municipality
+      </button>
+    </h2>
+    <div id="collapseMuniContact" class="accordion-collapse collapse" aria-labelledby="headingMuniContact" data-bs-parent="#municipalityAccordion">
+      <div class="accordion-body">
+        While Corporate Compass provides a platform for specific complaints, you might need to contact the municipality directly for other inquiries.
+        <p><strong>General Contact Information (Example - Replace with actual info):</strong></p>
+        <ul>
+            <li><strong>Main Office Address:</strong> [Municipal Building Address, City, State, PIN Code]</li>
+            <li><strong>General Helpline:</strong> [Toll-Free Number or Landline]</li>
+            <li><strong>Official Website:</strong> [Link to Municipal Website]</li>
+            <li><strong>Key Department Contacts:</strong> (Often available on the official website)</li>
+        </ul>
+        <p><em>Note: This information is illustrative. Please refer to the official website of your local municipality for accurate contact details.</em></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

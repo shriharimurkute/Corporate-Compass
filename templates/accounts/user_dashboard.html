@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">User Dashboard</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <div class="btn-group me-2">
+        <a href="{% url 'submit_complaint' %}" class="btn btn-sm btn-outline-success">New Complaint</a>
+        <a href="{% url 'my_complaints' %}" class="btn btn-sm btn-outline-info">My Complaints</a>
+      </div>
+    </div>
+</div>
+
+<p>Welcome, {{ user.first_name|default:user.username }}!</p>
+<p>This is your personal dashboard. From here you can quickly access actions like submitting a new complaint or viewing your existing ones.</p>
+
+{# Add more widgets or summaries here as needed #}
+{# Example: Show recent complaints #}
+
+{# {% include 'complaints/complaint_list.html' with complaints=recent_complaints title="My Recent Complaints" %} #}
+
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Quick Actions</h5>
+                <a href="{% url 'submit_complaint' %}" class="btn btn-primary mb-2">File New Complaint</a><br>
+                <a href="{% url 'my_complaints' %}" class="btn btn-secondary mb-2">View My Submitted Complaints</a><br>
+                <a href="{% url 'track_complaint' %}" class="btn btn-info">Track a Complaint Status</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+             <div class="card-body">
+                <h5 class="card-title">Useful Links</h5>
+                <a href="{% url 'agency_list' %}" class="btn btn-outline-dark mb-2">Browse Agencies</a><br>
+                <a href="{% url 'complaint_list' %}" class="btn btn-outline-dark mb-2">View All Public Complaints</a><br>
+                {# Add link to profile edit if implemented #}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

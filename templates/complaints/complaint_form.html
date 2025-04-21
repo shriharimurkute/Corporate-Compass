@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+         <div class="card shadow-sm">
+             <div class="card-header {% if is_edit %}bg-warning text-dark{% else %}bg-success text-white{% endif %}">
+                 <h4 class="mb-0">{{ title }}</h4>
+             </div>
+             <div class="card-body">
+                 <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    {# Display non-field errors #}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p class="mb-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {# Render form fields manually for better control with Bootstrap #}
+                     <div class="mb-3">
+                        <label for="{{ form.user_address.id_for_label }}" class="form-label">{{ form.user_address.label }}*</label>
+                         <textarea name="{{ form.user_address.name }}" id="{{ form.user_address.id_for_label }}" rows="3" class="form-control {% if form.user_address.errors %}is-invalid{% endif %}" required>{{ form.user_address.value|default:'' }}</textarea>
+                         {% if form.user_address.help_text %}<small class="form-text text-muted">{{ form.user_address.help_text }}</small>{% endif %}
+                        {% if form.user_address.errors %}
+                            <div class="invalid-feedback d-block">
+                                {% for error in form.user_address.errors %} {{ error }} {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                     <div class="mb-3">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}*</label>
+                         <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" rows="5" class="form-control {% if form.description.errors %}is-invalid{% endif %}" required>{{ form.description.value|default:'' }}</textarea>
+                          {% if form.description.help_text %}<small class="form-text text-muted">{{ form.description.help_text }}</small>{% endif %}
+                         {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">
+                                 {% for error in form.description.errors %} {{ error }} {% endfor %}
+                             </div>
+                         {% endif %}
+                     </div>
+
+                    {# Only show agency selection on submit, not edit #}
+                     {% if not is_edit and form.tagged_agency %}
+                     <div class="mb-3">
+                        <label for="{{ form.tagged_agency.id_for_label }}" class="form-label">{{ form.tagged_agency.label }}*</label>
+                         <select name="{{ form.tagged_agency.name }}" id="{{ form.tagged_agency.id_for_label }}" class="form-select {% if form.tagged_agency.errors %}is-invalid{% endif %}" required>
+                            <option value="">-- Select Agency Department --</option>
+                            {% for agency_pk, agency_name in form.tagged_agency.field.choices %}
+                                {% if agency_pk %} {# Skip empty label if already added #}
+                                <option value="{{ agency_pk }}" {% if form.tagged_agency.value == agency_pk|stringformat:"i" %}selected{% endif %}>
+                                    {{ agency_name }}
+                                </option>
+                                {% endif %}
+                            {% endfor %}
+                         </select>
+                          {% if form.tagged_agency.help_text %}<small class="form-text text-muted">{{ form.tagged_agency.help_text }}</small>{% endif %}
+                         {% if form.tagged_agency.errors %}
+                            <div class="invalid-feedback d-block">
+                                 {% for error in form.tagged_agency.errors %} {{ error }} {% endfor %}
+                             </div>
+                         {% endif %}
+                     </div>
+                     {% endif %}
+
+                     <div class="mb-3">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
+                         <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}" class="form-control {% if form.image.errors %}is-invalid{% endif %}" accept="image/*">
+                         {% if form.image.help_text %}<small class="form-text text-muted">{{ form.image.help_text }}</small>{% endif %}
+                         {% if form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                 {% for error in form.image.errors %} {{ error }} {% endfor %}
+                             </div>
+                         {% endif %}
+                        {# Show current image if editing #}
+                         {% if form.instance and form.instance.image %}
+                             <p class="mt-2 mb-0"><small>Current image:</small> <a href="{{ form.instance.image.url }}" target="_blank">{{ form.instance.image.name }}</a></p>
+                             {# Optional: Add checkbox to clear image #}
+                             {# <input type="checkbox" name="{{ form.image.name }}-clear" id="{{ form.image.id_for_label }}_clear"> Clear current image #}
+                         {% endif %}
+                     </div>
+
+                    <p class="text-muted"><small>* Required fields</small></p>
+                    <hr>
+                    <button type="submit" class="btn {% if is_edit %}btn-warning{% else %}btn-success{% endif %}">
+                        {% if is_edit %}Update{% else %}Submit{% endif %} Complaint
+                    </button>
+                    {# Provide a reasonable default cancel URL #}
+                    <a href="{% if is_edit %}{% url 'complaint_detail' form.instance.pk %}{% else %}{% url 'home' %}{% endif %}" class="btn btn-secondary">Cancel</a>
+                 </form>
+             </div>
+         </div>
+    </div>
+</div>
+{% endblock %}

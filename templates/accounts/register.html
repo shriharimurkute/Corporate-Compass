@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Register - {{ user_type|title }} Account{% endblock %}
+
+{% block content %}
+<body>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Register {% if user_type == 'agency' %}Agency Admin{% else %}User{% endif %} Account
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {{ form.as_p }} {# Basic rendering, or use crispy forms: {% crispy form %} #}
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <small>Already have an account? <a href="{% url 'login' %}">Login here</a></small><br>
+                {% if user_type == 'user' %}
+                <small>Registering as an Agency Admin? <a href="{% url 'register_agency_admin' %}">Click here</a></small>
+                {% else %}
+                 <small>Registering as a Regular User? <a href="{% url 'register_user' %}">Click here</a></small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+    body {
+        background: linear-gradient(to bottom, rgb(8, 8, 8), rgb(186, 195, 201));
+        display:flex;
+    }
+    
+</style>
+</body>
+{% endblock %}

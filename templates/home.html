@@ -1,0 +1,282 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Welcome - Corporate Compass{% endblock %}
+
+{% block content %}
+<body>
+<section class="container mt-5">
+    <!-- Landing Page Content: Existing Government Information -->
+    <div class="row">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Welcome to Corporate Compass: Your Gateway to Government Accountability</h1>
+            <p class="lead">
+                Corporate Compass is a platform dedicated to analyzing citizen e-complaints to provide insights into
+                the effectiveness and responsiveness of government services. We aim to empower citizens and promote
+                transparency in governance.
+            </p>
+            <p>
+                Here, you can access key government information, analyze trends in citizen complaints, and gain a
+                better understanding of government performance.
+            </p>
+
+            <!-- Add Links to Existing Government Information Here -->
+            <h2>Key Government Resources</h2>
+            <ul>
+                <li><a href="https://services.india.gov.in/">Government Services Portal</a></li>
+                <li><a href="https://www.onlinelegalindia.com/"> Official Government Complaints Website</a></li>
+                <li><a href="https://open.undp.org/">Transparency Data Portal</a></li>
+                <!-- Add More Links as Needed -->
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <img src="{% static 'images/suvarna-vidhana-soudha.jpg' %}" alt="Government Building" class="img-fluid rounded">
+        </div>
+    </div>
+</section>
+
+<section class="container mt-5">
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5 ">
+        <p class="col-md-8 fs-4">Your platform to voice concerns and connect with government agencies. Register complaints, track their status, and find information about your city's governance.</p>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+        <div class="btn-group">
+             <button type="button" class="btn btn-success btn-lg dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Register
+             </button>
+             <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'register_user' %}">As User</a></li>
+                <li><a class="dropdown-item" href="{% url 'register_agency_admin' %}">As Agency Admin</a></li>
+            </ul>
+        </div>
+        {% else %}
+            {% if user.user_type == 'user' %}
+                 <a href="{% url 'submit_complaint' %}" class="btn btn-success btn-lg me-2">File a New Complaint</a>
+                 <a href="{% url 'my_complaints' %}" class="btn btn-info btn-lg">View My Complaints</a>
+            {% elif user.user_type == 'agency' %}
+                 <a href="{% url 'agency_dashboard' %}" class="btn btn-info btn-lg">Go to Agency Dashboard</a>
+            {% endif %}
+        {% endif %}
+         <a href="{% url 'track_complaint' %}" class="btn btn-secondary btn-lg ms-2">Track a Complaint</a>
+      </div>
+    </div>
+    </section>
+
+
+<div class="row align-items-md-stretch">
+    <div class="col-md-6 mb-4">
+        <div class="h-100 p-5 text-bg-dark rounded-3">
+        <h2>About Us</h2>
+        <p>Corporate Compass aims to bridge the gap between citizens and municipal corporations or government agencies. Submit your grievances regarding civic issues, and we'll help direct them to the concerned department.</p>
+        <a href="#" class="btn btn-outline-light">Learn More</a> {# Link to an about page if you have one #}
+        </div>
+    </div>
+    <div class="col-md-6 mb-4 ">
+        <div class="h-100 p-5 bg-body-tertiary border rounded-3">
+        <h2 style="color:black; font-style:bold;">Informational Resources</h2>
+        <p style="color:black;">Find information about your local government structure, city administration, mayor's office, and common issues faced by the municipality.</p>
+         <a href="{% url 'info_government' %}" class="btn btn-outline-secondary me-1 mb-1">Government Info</a>
+         <a href="{% url 'info_municipality' %}" class="btn btn-outline-secondary me-1 mb-1">Municipality Info</a>
+         {# Add more links #}
+        </div>
+    </div>
+ </div>
+
+<!-- Analysis Block: Last 5 Years of Complaints -->
+<section class="container mt-5 bg-light p-4 rounded shadow-sm">
+    <h2 class="text-center mb-4">Analysis of Citizen Complaints Against Government Services (Last 5 Years)</h2>
+    
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>Top Complaint Categories</h3>
+            <ul id="complaint-categories">
+                <!-- Data will be loaded here via JavaScript -->
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Key Trends and Insights</h3>
+            <p id="trends-insights">
+                <!-- Data will be loaded here via JavaScript -->
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <canvas id="complaintsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-muted ">
+                <strong class="text-light">Disclaimer:</strong> <p class="text-light">This analysis is based on publicly available data and may not reflect the
+                entire picture of government service performance.</p>
+            </p>
+        </div>
+    </div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+        // Placeholder data (Replace with your actual data)
+        const complaintData = {
+            categories: ["Road Maintenance", "Water Supply", "Electricity", "Waste Management", "Public Transportation"],
+            counts: [150, 120, 90, 75, 60],
+            trends: "Citizen complaints related to Road Maintenance have increased by 20% in the past year, indicating a need for greater attention and resource allocation in this area."
+        };
+
+        // Function to update complaint categories
+        function updateComplaintCategories(categories, counts) {
+            const categoriesList = document.getElementById('complaint-categories');
+            categoriesList.innerHTML = '';  // Clear existing list
+            for (let i = 0; i < categories.length; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${categories[i]}: ${counts[i]} Complaints`;
+                categoriesList.appendChild(listItem);
+            }
+        }
+
+        // Function to update trends and insights
+        function updateTrendsAndInsights(trends) {
+            const trendsInsightsElement = document.getElementById('trends-insights');
+            trendsInsightsElement.textContent = trends;
+        }
+
+        // Function to create chart using Chart.js
+        function createChart(categories, counts) {
+            const ctx = document.getElementById('complaintsChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: categories,
+                    datasets: [{
+                        label: 'Number of Complaints',
+                        data: counts,
+                        backgroundColor: [
+                            'rgba(162, 83, 99, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Complaints'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Complaint Categories'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false  // Hide the legend
+                        },
+                        title: {
+                            display: true,
+                            text: 'Distribution of Complaints by Category',
+                            padding: 10,
+                            font: {
+                                size: 20
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+
+        // Call functions to update data
+        updateComplaintCategories(complaintData.categories, complaintData.counts);
+        updateTrendsAndInsights(complaintData.trends);
+        createChart(complaintData.categories, complaintData.counts);
+
+
+    });
+</script>
+
+
+<style>
+
+   
+    .container {
+        background-color: rgba(2, 2, 2, 0.05); /* Container Background with Transparency */
+        border-radius: 10px;
+        padding: 20px;
+    }
+    body {
+        background: linear-gradient(to bottom, #3498db, #2c3e50); /* Linear Gradient Background */
+        color: #fff; /* Text Color */
+        font-family: 'Arial', sans-serif;
+    }
+    .bg-light {
+        background-color: rgba(255, 255, 255, 0.1) !important; /* Light Background with Transparency */
+    }
+    p, li, a {
+        color: #ecf0f1; /* Slightly Lighter Text */
+    }
+    a:hover {
+        color: #fff;
+    }
+</style>
+
+
+<div class="container mb-2 bg-light text-center text-lg-start mt-5"> <!-- Added class="container" -->
+
+    <!-- Time and Date Display -->
+    <div id="time-date-display" class="text-center">
+        <div id="time">00:00:00</div>
+        <div id="date">Date Loading...</div>
+    </div>
+</div>
+
+<!-- 3. JavaScript for Time/Date Update -->
+<script>
+    const timeElement = document.getElementById('time');
+    const dateElement = document.getElementById('date');
+
+    function updateTimeDate() {
+        const now = new Date();
+
+        // Format Time (HH:MM:SS) with leading zeros
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        timeElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+        // Format Date (e.g., "Tuesday, July 23, 2024")
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateElement.textContent = now.toLocaleDateString(undefined, dateOptions); // Uses browser's default locale
+    }
+
+    // Update immediately on load
+    updateTimeDate();
+
+    // Update every second (1000 milliseconds)
+    setInterval(updateTimeDate, 1000);
+</script>
+
+</body>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ agency.name }} - Agency Details{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4 text-center mb-3">
+         {% if agency.logo %}
+             <img src="{{ agency.logo.url }}" class="img-fluid rounded mb-3" alt="{{ agency.name }} Logo" style="max-height: 250px;">
+         {% else %}
+             <img src="{% static 'images/default-agency.png' %}" class="img-fluid rounded mb-3" alt="Default Agency Logo" style="max-height: 250px; opacity: 0.6;">
+         {% endif %}
+         <h4>{{ agency.name }}</h4>
+         {% if agency.tagline %}
+            <p class="text-muted fst-italic">"{{ agency.tagline }}"</p>
+         {% endif %}
+         <p><small>Managed by: {{ agency.managed_by.username }}</small></p>
+         <p><small>Registered on: {{ agency.created_at|date:"F j, Y" }}</small></p>
+    </div>
+    <div class="col-md-8">
+        <h3>Agency Information</h3>
+        <hr>
+        <p><strong>Full Address:</strong></p>
+        <p>{{ agency.address|linebreaksbr }}</p>
+
+        <h4 class="mt-4">Recent Complaints Tagged to this Agency</h4>
+        {% if related_complaints %}
+            <ul class="list-group">
+                {% for complaint in related_complaints %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="{% url 'complaint_detail' complaint.pk %}"><strong>{{ complaint.receipt_id }}</strong></a> - {{ complaint.description|truncatewords:10 }}
+                        <br><small class="text-muted">Submitted by {{ complaint.user.username }} on {{ complaint.created_at|date:"M d, Y" }}</small>
+                    </div>
+                    <span class="badge rounded-pill
+                        {% if complaint.status == 'submitted' %} bg-warning text-dark
+                        {% elif complaint.status == 'viewed' %} bg-info text-dark
+                        {% elif complaint.status == 'resolved' %} bg-success
+                        {% else %} bg-secondary {% endif %}">
+                        {{ complaint.get_status_display }}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+            {# Optional: Link to see all complaints for this agency #}
+        {% else %}
+            <div class="alert alert-light">No complaints have been tagged to this agency yet.</div>
+        {% endif %}
+
+        <div class="mt-4">
+             <a href="{% url 'agency_list' %}" class="btn btn-secondary">Back to Agency List</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
